@@ -270,7 +270,7 @@ window.addEventListener('load', async () => {
 });
 
 function buildPlayerUrl() {
-  const base = location.href.replace('index.html','').replace(/\/$/, '');
+  const base = 'https://maximilidinoprin-hash.github.io/prof-quiz';
   return base + '/prof-quiz-player.html'
     + '?db=' + encodeURIComponent(FIREBASE_CONFIG.databaseURL)
     + '&room=' + roomId
