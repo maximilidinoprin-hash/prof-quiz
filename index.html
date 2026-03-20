@@ -6,396 +6,179 @@
 <title>🎓 Host — ทายซิ อาจารย์คือใคร?</title>
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0d0d1f;
-  --surface: #161630;
-  --surface2: #1e1e40;
-  --gold: #f5c842;
-  --gold2: #ffaa00;
-  --green: #3effa0;
-  --red: #ff5c5c;
-  --blue: #5cb8ff;
-  --purple: #b96fff;
-  --text: #f0f0ff;
-  --muted: #7070a0;
-  --border: rgba(245,200,66,0.2);
-  --radius: 18px;
-}
+:root{--bg:#0d0d1f;--s1:#161630;--s2:#1e1e40;--gold:#f5c842;--gold2:#ffaa00;--green:#3effa0;--red:#ff5c5c;--blue:#5cb8ff;--purple:#b96fff;--text:#f0f0ff;--muted:#7070a0;--border:rgba(245,200,66,.2);--r:18px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* BG PULSE */
-body::before{content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(245,200,66,.07) 0,transparent 60%),
-             radial-gradient(ellipse 50% 40% at 80% 90%,rgba(94,255,160,.05) 0,transparent 60%);
-  pointer-events:none;z-index:0}
-
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(245,200,66,.07) 0,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 90%,rgba(94,255,160,.05) 0,transparent 60%);pointer-events:none;z-index:0}
 .wrap{max-width:1100px;margin:0 auto;padding:20px;position:relative;z-index:1}
-
-/* ===== SETUP SCREEN ===== */
-#setupScreen{animation:fadeUp .6s ease}
 .logo{text-align:center;padding:40px 0 28px}
-.logo h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:700;
-  background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .logo p{color:var(--muted);margin-top:6px;font-family:'Sarabun',sans-serif}
-
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:18px}
+.card{background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:18px}
 .card h2{font-size:1rem;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px}
-
-.step-badge{display:inline-flex;align-items:center;justify-content:center;
-  width:26px;height:26px;border-radius:50%;background:var(--gold);color:#000;font-size:.75rem;font-weight:700;flex-shrink:0}
-
-.guide-steps{display:flex;flex-direction:column;gap:12px}
-.guide-step{display:flex;gap:14px;align-items:flex-start;padding:14px;
-  background:var(--surface2);border-radius:12px;border:1px solid transparent;transition:border-color .3s}
-.guide-step:hover{border-color:var(--border)}
-.guide-step-body{flex:1}
-.guide-step-body strong{display:block;font-size:.95rem;margin-bottom:4px}
-.guide-step-body p,.guide-step-body code{color:var(--muted);font-family:'Sarabun',sans-serif;font-size:.85rem;line-height:1.7}
-code{background:rgba(94,255,160,.1);color:var(--green);padding:1px 6px;border-radius:5px;font-family:monospace}
-a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
-
-.config-area{margin-top:14px}
-.config-area label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:6px;font-family:'Sarabun',sans-serif}
-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;
-  color:var(--text);font-family:monospace;font-size:.82rem;padding:14px;resize:vertical;min-height:130px;outline:none;transition:border-color .3s}
-textarea:focus{border-color:var(--gold)}
-
-.names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:4px}
-.name-row{display:flex;align-items:center;gap:8px;background:var(--surface2);
-  border:1px solid var(--border);border-radius:10px;padding:8px 12px}
-.name-num{color:var(--muted);font-size:.78rem;min-width:18px}
-.name-row input{background:transparent;border:none;color:var(--text);font-family:'Mitr',sans-serif;font-size:.88rem;width:100%;outline:none}
-.name-row input:focus{color:var(--gold)}
-
 .btn{padding:13px 28px;border-radius:12px;border:none;font-family:'Mitr',sans-serif;font-size:1rem;cursor:pointer;transition:all .25s;font-weight:500}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0a00}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,200,66,.4)}
-.btn-outline{background:var(--surface2);color:var(--text);border:1.5px solid var(--border)}
+.btn-outline{background:var(--s2);color:var(--text);border:1.5px solid var(--border)}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
 .btn-danger{background:rgba(255,92,92,.12);color:var(--red);border:1.5px solid rgba(255,92,92,.3)}
-.btn-danger:hover{background:rgba(255,92,92,.25)}
 .btn-sm{padding:8px 16px;font-size:.85rem;border-radius:9px}
-
-/* ===== LOBBY ===== */
-#lobbyScreen,.game-screen{display:none}
-#lobbyScreen.show,.game-screen.show{display:block;animation:fadeUp .5s ease}
-
+#lobbyScreen,.game-screen,#finalScreen{display:none}
 .lobby-top{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;margin-bottom:20px}
 @media(max-width:600px){.lobby-top{grid-template-columns:1fr}}
-
-.join-box{background:var(--surface);border:2px solid var(--gold);border-radius:var(--radius);padding:28px;text-align:center}
-.join-box .url-label{color:var(--muted);font-size:.85rem;margin-bottom:8px;font-family:'Sarabun',sans-serif}
-.join-url{font-size:clamp(.9rem,2.5vw,1.15rem);color:var(--gold);word-break:break-all;font-weight:600;margin-bottom:14px}
-.qr-placeholder{width:120px;height:120px;background:white;border-radius:10px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.qr-placeholder img{width:100%;height:100%}
-
-.players-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px;flex:1}
+.join-box{background:var(--s1);border:2px solid var(--gold);border-radius:var(--r);padding:28px;text-align:center}
+.join-url{font-size:clamp(.8rem,2vw,1rem);color:var(--gold);word-break:break-all;font-weight:600;margin-bottom:14px;background:var(--s2);padding:10px;border-radius:10px;border:1px solid var(--border)}
+.qr-box{width:130px;height:130px;background:white;border-radius:10px;margin:0 auto 14px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.qr-box img{width:100%;height:100%}
+.players-card{background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;flex:1}
 .players-card h3{color:var(--green);font-size:.95rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.player-count{background:rgba(62,255,160,.15);color:var(--green);border:1px solid rgba(62,255,160,.3);
-  border-radius:50px;padding:2px 12px;font-size:.8rem}
+.player-count{background:rgba(62,255,160,.15);color:var(--green);border:1px solid rgba(62,255,160,.3);border-radius:50px;padding:2px 12px;font-size:.8rem}
 .players-list{display:flex;flex-wrap:wrap;gap:8px;max-height:220px;overflow-y:auto}
-.player-chip{background:var(--surface2);border:1px solid var(--border);border-radius:50px;
-  padding:6px 14px;font-size:.85rem;animation:popIn .3s ease}
+.player-chip{background:var(--s2);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.85rem;animation:popIn .3s ease}
 @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-
-/* ===== GAME ===== */
-.game-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;margin-bottom:20px;
-  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 22px}
+.game-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;margin-bottom:20px;background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 22px}
 .q-counter{font-size:.85rem;color:var(--muted);font-family:'Sarabun',sans-serif}
 .q-counter span{color:var(--gold);font-weight:600;font-size:1rem}
-.score-live{text-align:right}
-.score-live .answered{font-size:1.3rem;font-weight:700;color:var(--green)}
-.score-live .answered-label{font-size:.75rem;color:var(--muted);font-family:'Sarabun',sans-serif}
-
-.progress-bar{height:5px;background:var(--surface2);border-radius:5px;overflow:hidden;margin-bottom:20px}
+.answered{font-size:1.3rem;font-weight:700;color:var(--green);text-align:right}
+.answered-label{font-size:.75rem;color:var(--muted);font-family:'Sarabun',sans-serif;text-align:right}
+.progress-bar{height:5px;background:var(--s2);border-radius:5px;overflow:hidden;margin-bottom:20px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:5px;transition:width .5s ease}
-
-.clue-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;margin-bottom:20px;box-shadow:0 0 40px rgba(245,200,66,.12)}
-.clue-panel-top{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(255,170,0,.07));
-  padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.clue-panel{background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px;box-shadow:0 0 40px rgba(245,200,66,.12)}
+.clue-panel-top{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(255,170,0,.07));padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .clue-panel-top h3{color:var(--gold);font-size:.95rem}
 .clue-imgs{display:flex;gap:16px;padding:20px;flex-wrap:wrap;justify-content:center}
-.clue-img-box{border-radius:14px;overflow:hidden;border:2px solid var(--border);cursor:pointer;
-  transition:transform .3s,box-shadow .3s;position:relative}
+.clue-img-box{border-radius:14px;overflow:hidden;border:2px solid var(--border);cursor:pointer;transition:transform .3s,box-shadow .3s;position:relative}
 .clue-img-box:hover{transform:scale(1.03);box-shadow:0 12px 35px rgba(0,0,0,.6)}
 .clue-img-box img{display:block;max-height:300px;max-width:460px;width:100%;object-fit:contain;background:#080818}
-.clue-img-box .img-num{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.7);
-  color:var(--gold);border-radius:8px;padding:3px 10px;font-size:.75rem;border:1px solid var(--gold)}
-
-/* ANSWER BAR */
-.answer-reveal{background:var(--surface);border:2px solid var(--green);border-radius:var(--radius);
-  padding:20px 24px;margin-bottom:18px;display:none;animation:fadeUp .4s ease}
+.clue-img-box .img-num{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.7);color:var(--gold);border-radius:8px;padding:3px 10px;font-size:.75rem;border:1px solid var(--gold)}
+.answer-reveal{background:var(--s1);border:2px solid var(--green);border-radius:var(--r);padding:20px 24px;margin-bottom:18px;display:none;animation:fadeUp .4s ease}
 .answer-reveal.show{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.correct-tag{background:rgba(62,255,160,.2);color:var(--green);border:1px solid var(--green);
-  border-radius:50px;padding:4px 16px;font-size:.85rem;white-space:nowrap}
+.correct-tag{background:rgba(62,255,160,.2);color:var(--green);border:1px solid var(--green);border-radius:50px;padding:4px 16px;font-size:.85rem;white-space:nowrap}
 .correct-name{font-size:1.4rem;font-weight:700;color:var(--green)}
-
-/* STATS BARS */
-.stats-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px;display:none}
+.stats-panel{background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:18px;display:none}
 .stats-panel.show{display:block;animation:fadeUp .4s ease}
 .stats-panel h3{color:var(--gold);font-size:.9rem;margin-bottom:14px}
-.stats-list{display:flex;flex-direction:column;gap:8px}
-.stat-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px}
-.stat-bar-bg{height:10px;background:var(--surface2);border-radius:5px;overflow:hidden;flex:1}
+.stat-row{display:grid;grid-template-columns:120px 1fr 30px;align-items:center;gap:10px;margin-bottom:8px}
+.stat-bar-bg{height:10px;background:var(--s2);border-radius:5px;overflow:hidden}
 .stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:5px;transition:width .7s ease}
 .stat-bar-fill.is-correct{background:linear-gradient(90deg,var(--green),#00cc77)}
-.stat-count{font-size:.85rem;color:var(--muted);min-width:24px;text-align:right}
-.stat-name{font-size:.88rem;min-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-/* HOST CONTROLS */
+.stat-count{font-size:.85rem;color:var(--muted);text-align:right}
+.stat-name{font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .host-controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
-
-/* LEADERBOARD */
-.lb-section{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.lb-head{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(255,170,0,.07));
-  padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.lb-section{background:var(--s1);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.lb-head{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(255,170,0,.07));padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .lb-head h3{color:var(--gold);font-size:.95rem}
 .lb-list{padding:12px}
-.lb-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;
-  padding:12px 14px;border-radius:12px;margin-bottom:6px;background:var(--surface2);
-  border:1px solid transparent;transition:border-color .3s}
+.lb-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;margin-bottom:6px;background:var(--s2);border:1px solid transparent;transition:border-color .3s}
 .lb-row.r1{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.06)}
 .lb-row.r2{border-color:rgba(192,192,192,.3)}
 .lb-row.r3{border-color:rgba(205,127,50,.3)}
 .lb-rank{font-size:1.4rem;text-align:center}
 .lb-name{font-size:.95rem}
-.lb-pts{background:rgba(245,200,66,.15);color:var(--gold);border:1px solid rgba(245,200,66,.3);
-  border-radius:50px;padding:4px 14px;font-size:.88rem;font-weight:600}
-
-/* FINAL SCREEN */
-#finalScreen{display:none}
+.lb-pts{background:rgba(245,200,66,.15);color:var(--gold);border:1px solid rgba(245,200,66,.3);border-radius:50px;padding:4px 14px;font-size:.88rem;font-weight:600}
 #finalScreen.show{display:block;animation:fadeUp .6s ease}
 .final-podium{text-align:center;padding:32px 0 24px}
-.final-podium h2{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.final-podium h2{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
 .trophy{font-size:4rem;animation:bounce 1.5s infinite}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-
-/* LIGHTBOX */
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
-.lb.open{display:flex}
-.lb img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
-.lb-x{position:absolute;top:18px;right:22px;font-size:2rem;color:#fff;cursor:pointer;
-  background:rgba(255,255,255,.15);border:none;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center}
-
-/* STATUS TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
-  background:var(--surface2);border:1.5px solid var(--green);color:var(--green);
-  padding:12px 24px;border-radius:50px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
-.toast.show{opacity:1}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-
-/* TIMER RING */
 .timer-ring{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
 .timer-num{font-size:2.5rem;font-weight:700;color:var(--gold);min-width:60px;text-align:center;transition:color .3s}
 .timer-num.urgent{color:var(--red);animation:pulse .5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
-/* WAITING STATE */
-.waiting-overlay{position:absolute;inset:0;background:rgba(13,13,31,.85);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:inherit;z-index:10}
-.waiting-overlay.hidden{display:none}
-.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* PHASE INDICATOR */
 .phase-chip{display:inline-flex;align-items:center;gap:6px;border-radius:50px;padding:5px 14px;font-size:.8rem;font-weight:500}
 .phase-waiting{background:rgba(92,184,255,.12);color:var(--blue);border:1px solid rgba(92,184,255,.3)}
 .phase-playing{background:rgba(62,255,160,.12);color:var(--green);border:1px solid rgba(62,255,160,.3)}
 .phase-revealed{background:rgba(185,111,255,.12);color:var(--purple);border:1px solid rgba(185,111,255,.3)}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.lb.open{display:flex}
+.lb img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
+.lb-x{position:absolute;top:18px;right:22px;font-size:2rem;color:#fff;cursor:pointer;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--s2);border:1.5px solid var(--green);color:var(--green);padding:12px 24px;border-radius:50px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.starting-msg{text-align:center;padding:40px;animation:fadeUp .5s ease}
+.starting-msg h2{font-size:1.5rem;color:var(--gold);margin-bottom:10px}
+.starting-msg p{color:var(--muted);font-family:'Sarabun',sans-serif}
+.spin{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
-<div class="lb" id="lightbox">
-  <button class="lb-x" onclick="closeLB()">✕</button>
-  <img id="lbImg" src="" alt="">
-</div>
+<div class="lb" id="lightbox"><button class="lb-x" onclick="closeLB()">✕</button><img id="lbImg" src="" alt=""></div>
 <div class="toast" id="toast"></div>
-
 <div class="wrap">
 
-<!-- ====== SETUP ====== -->
-<div id="setupScreen">
+<!-- LOBBY -->
+<div id="lobbyScreen">
   <div class="logo">
     <div style="font-size:2.8rem;margin-bottom:10px">🎓</div>
     <h1>ทายซิ... อาจารย์คือใคร?</h1>
     <p>หน้าควบคุมของอาจารย์ (Host)</p>
   </div>
-
-  <!-- Firebase Config -->
-  <div class="card">
-    <h2><span class="step-badge">1</span> ตั้งค่า Firebase</h2>
-    <div class="guide-steps">
-      <div class="guide-step">
-        <div class="step-badge" style="background:var(--blue);min-width:26px">A</div>
-        <div class="guide-step-body">
-          <strong>สร้าง Firebase Project</strong>
-          <p>ไปที่ <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → <strong>Add project</strong> → ตั้งชื่อ เช่น <code>prof-quiz</code> → Create project</p>
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="step-badge" style="background:var(--gold2);min-width:26px">B</div>
-        <div class="guide-step-body">
-          <strong>เปิด Realtime Database</strong>
-          <p>ใน Firebase Console → เมนูซ้าย <strong>Realtime Database</strong> → <strong>Create database</strong> → เลือก <code>Asia Southeast</code> → <strong>Start in test mode</strong> → Enable</p>
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="step-badge" style="background:var(--green);color:#000;min-width:26px">C</div>
-        <div class="guide-step-body">
-          <strong>Get Firebase Config</strong>
-          <p>⚙️ Project Settings → <strong>Your apps</strong> → กด <code>&lt;/&gt;</code> Web → Register → Copy <code>firebaseConfig</code> object → วางในช่องด้านล่าง</p>
-        </div>
-      </div>
-    </div>
-    <div class="config-area" style="margin-top:18px">
-      <label>วาง firebaseConfig ที่นี่ (JSON object เท่านั้น):</label>
-      <textarea id="fbConfigInput" placeholder='{
-  "apiKey": "AIzaSy...",
-  "authDomain": "prof-quiz.firebaseapp.com",
-  "databaseURL": "https://prof-quiz-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "projectId": "prof-quiz",
-  "storageBucket": "prof-quiz.appspot.com",
-  "messagingSenderId": "123456789",
-  "appId": "1:123..."
-}'></textarea>
-    </div>
-  </div>
-
-  <!-- Professor Names -->
-  <div class="card">
-    <h2><span class="step-badge">2</span> ใส่ชื่ออาจารย์ทั้ง 10 คน</h2>
-    <div class="names-grid" id="namesGrid"></div>
-  </div>
-
-  <!-- Image folder note -->
-  <div class="card">
-    <h2><span class="step-badge">3</span> วางรูปคำใบ้</h2>
-    <div class="guide-steps">
-      <div class="guide-step">
-        <div class="step-badge" style="min-width:26px">📁</div>
-        <div class="guide-step-body">
-          <strong>โครงสร้างโฟลเดอร์</strong>
-          <p>วางไฟล์ทั้งสองไว้ในโฟลเดอร์เดียวกัน พร้อมโฟลเดอร์ <code>images/</code><br>
-          ชื่อรูป: <code>1_1.jpg</code> <code>1_2.jpg</code> ... <code>10_1.jpg</code> <code>10_2.jpg</code><br>
-          (เลขหน้า = ลำดับอาจารย์, เลขหลัง = รูปที่ 1 หรือ 2)</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="text-align:center;padding:10px 0 30px">
-    <button class="btn btn-gold" style="font-size:1.1rem;padding:16px 40px" onclick="initFirebase()">🚀 เริ่มสร้างห้องเกม</button>
-    <p style="color:var(--muted);font-size:.8rem;margin-top:10px;font-family:'Sarabun',sans-serif">ระบบจะสร้าง Game Room และรอเด็กเข้าห้อง</p>
-  </div>
-</div>
-
-<!-- ====== LOBBY ====== -->
-<div id="lobbyScreen">
   <div class="lobby-top">
     <div class="join-box" style="flex:none;max-width:320px">
-      <div class="url-label">📱 เด็กเปิดลิงก์นี้:</div>
+      <div style="color:var(--muted);font-size:.85rem;margin-bottom:8px;font-family:'Sarabun',sans-serif">📱 เด็กเปิดลิงก์นี้:</div>
       <div class="join-url" id="joinUrl">—</div>
-      <div class="qr-placeholder" id="qrBox"><span style="font-size:.7rem;color:#999;text-align:center;padding:8px">QR จะขึ้น<br>เมื่อตั้งค่าครบ</span></div>
+      <div class="qr-box" id="qrBox"><span style="font-size:.7rem;color:#999;text-align:center">กำลังสร้าง QR...</span></div>
       <button class="btn btn-outline btn-sm" onclick="copyJoinUrl()">📋 คัดลอกลิงก์</button>
     </div>
-
     <div class="players-card">
       <h3>👥 ผู้เล่นในห้อง <span class="player-count" id="playerCountBadge">0</span></h3>
-      <div class="players-list" id="playersList">
-        <span style="color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif">รอเด็กเข้าห้อง...</span>
-      </div>
+      <div class="players-list" id="playersList"><span style="color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif">รอเด็กเข้าห้อง...</span></div>
     </div>
   </div>
-
   <div style="text-align:center;padding:16px 0">
-    <button class="btn btn-gold" style="font-size:1.1rem;padding:15px 40px" onclick="startGame()" id="startGameBtn">
-      ▶ เริ่มเกม!
-    </button>
-    <p style="color:var(--muted);font-size:.82rem;margin-top:10px;font-family:'Sarabun',sans-serif" id="lobbyHint">รอเด็กเข้าห้องก่อน แล้วกดเริ่ม</p>
+    <button class="btn btn-gold" style="font-size:1.1rem;padding:15px 40px" onclick="startGame()" id="startGameBtn">▶ เริ่มเกม!</button>
+    <p style="color:var(--muted);font-size:.82rem;margin-top:10px;font-family:'Sarabun',sans-serif">รอเด็กเข้าห้องก่อน แล้วกดเริ่ม</p>
   </div>
 </div>
 
-<!-- ====== GAME ====== -->
+<!-- GAME -->
 <div class="game-screen" id="gameScreen">
-
   <div class="game-header">
     <div class="q-counter">ข้อที่ <span id="qNum">1</span> / <span id="qTotal">10</span></div>
-    <div style="text-align:center">
-      <span class="phase-chip phase-waiting" id="phaseChip">⏳ รอเด็กตอบ</span>
-    </div>
-    <div class="score-live">
-      <div class="answered" id="answeredCount">0</div>
-      <div class="answered-label">ตอบแล้ว / <span id="totalPlayers">0</span></div>
-    </div>
+    <div style="text-align:center"><span class="phase-chip phase-waiting" id="phaseChip">⏳ รอเด็กตอบ</span></div>
+    <div><div class="answered" id="answeredCount">0</div><div class="answered-label">ตอบแล้ว / <span id="totalPlayers">0</span></div></div>
   </div>
-
   <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:10%"></div></div>
-
-  <!-- Clue images -->
-  <div class="clue-panel" style="position:relative">
-    <div class="clue-panel-top">
-      <h3 id="clueTitle">🖼️ รูปคำใบ้ของอาจารย์คนที่ <span id="clueNum">1</span></h3>
-      <span style="color:var(--muted);font-size:.8rem">คลิกขยาย</span>
-    </div>
+  <div class="clue-panel">
+    <div class="clue-panel-top"><h3 id="clueTitle">🖼️ รูปคำใบ้ ข้อที่ <span id="clueNum">1</span></h3><span style="color:var(--muted);font-size:.8rem">คลิกขยาย</span></div>
     <div class="clue-imgs" id="clueImgs"></div>
   </div>
-
-  <!-- Timer -->
-  <div class="timer-ring">
-    <div class="timer-num" id="timerNum">—</div>
-    <div style="color:var(--muted);font-size:.9rem;font-family:'Sarabun',sans-serif">วินาที</div>
-  </div>
-
-  <!-- Answer reveal -->
+  <div class="timer-ring"><div class="timer-num" id="timerNum">30</div><div style="color:var(--muted);font-size:.9rem;font-family:'Sarabun',sans-serif">วินาที</div></div>
   <div class="answer-reveal" id="answerReveal">
     <span class="correct-tag">✅ เฉลย</span>
     <span class="correct-name" id="correctNameDisplay">—</span>
     <span style="color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif" id="correctCountText"></span>
   </div>
-
-  <!-- Stats bars -->
-  <div class="stats-panel" id="statsPanel">
-    <h3>📊 การกระจายคำตอบ</h3>
-    <div class="stats-list" id="statsList"></div>
-  </div>
-
-  <!-- Controls -->
+  <div class="stats-panel" id="statsPanel"><h3>📊 การกระจายคำตอบ</h3><div id="statsList"></div></div>
   <div class="host-controls">
     <button class="btn btn-gold" id="revealBtn" onclick="revealAnswer()" style="display:none">🔍 เฉลยคำตอบ</button>
     <button class="btn btn-outline" id="nextBtn" onclick="nextQuestion()" style="display:none">ถัดไป ➜</button>
     <button class="btn btn-outline" id="finishBtn" onclick="showFinal()" style="display:none">🏁 จบเกม / ดูผล</button>
   </div>
-
-  <!-- Live Leaderboard -->
   <div class="lb-section">
-    <div class="lb-head">
-      <h3>🏆 คะแนนสะสม</h3>
-      <span style="color:var(--muted);font-size:.82rem" id="lb-updated">— อัปเดตหลังเฉลย</span>
-    </div>
+    <div class="lb-head"><h3>🏆 คะแนนสะสม</h3><span style="color:var(--muted);font-size:.82rem" id="lb-updated">—</span></div>
     <div class="lb-list" id="lbList"><div style="text-align:center;padding:30px;color:var(--muted)">ยังไม่มีข้อมูล</div></div>
   </div>
 </div>
 
-<!-- ====== FINAL ====== -->
+<!-- FINAL -->
 <div id="finalScreen">
-  <div class="final-podium">
-    <div class="trophy">🏆</div>
-    <h2>จบเกมแล้ว!</h2>
-    <p style="color:var(--muted);font-family:'Sarabun',sans-serif;margin-top:6px">ผลคะแนนสุดท้าย</p>
-  </div>
+  <div class="final-podium"><div class="trophy">🏆</div><h2>จบเกมแล้ว!</h2><p style="color:var(--muted);font-family:'Sarabun',sans-serif;margin-top:6px">ผลคะแนนสุดท้าย</p></div>
   <div class="lb-section">
     <div class="lb-head"><h3>🥇 อันดับสุดท้าย</h3></div>
     <div class="lb-list" id="finalLbList"></div>
   </div>
-  <div style="text-align:center;padding:24px 0">
-    <button class="btn btn-outline" onclick="resetGame()">🔄 เล่นใหม่</button>
+  <div style="text-align:center;padding:24px 0"><button class="btn btn-outline" onclick="location.reload()">🔄 เล่นใหม่</button></div>
+</div>
+
+<!-- STARTING -->
+<div id="startingScreen" style="display:none">
+  <div class="starting-msg">
+    <div class="spin"></div>
+    <h2>🔥 กำลังสร้างห้องเกม...</h2>
+    <p>กรุณารอสักครู่</p>
   </div>
 </div>
 
@@ -406,73 +189,69 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, set, get, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 // ============================================================
+// ✅ CONFIG & NAMES — ฝังไว้ในไฟล์เลย ไม่ต้องตั้งค่าทุกครั้ง
+// ============================================================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyArdcFC7c6AM-lrjvJsAuhRHCx8Mr11SGA",
+  authDomain: "picture-game-lsm.firebaseapp.com",
+  databaseURL: "https://picture-game-lsm-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "picture-game-lsm",
+  storageBucket: "picture-game-lsm.firebasestorage.app",
+  messagingSenderId: "227003766308",
+  appId: "1:227003766308:web:2ad6ef4d53b2fd6172aab1"
+};
+
+const PROF_NAMES = [
+  'อ.เก๋',    // 1 → images/1_1.png, 1_2.jpg
+  'อ.ปริญ',   // 2 → images/2_1.png, 2_2.jpg
+  'อ.ต่อ',    // 3 → images/3_1.jpg, 3_2.jpg
+  'อ.อู๋',    // 4 → images/4_1.png, 4_2.jpg
+  'อ.เบญ',    // 5 → images/5_1.png, 5_2.jpg
+  'อ.ตี๋',    // 6 → images/6_1.png, 6_2.jpg
+  'อ.ตั้ว',   // 7 → images/7_1.jpg, 7_2.jpg
+  'อ.เอก',    // 8 → images/8_1.png, 8_2.jpg
+  'อ.โอ้',    // 9 → images/9_1.jpg, 9_2.jpg
+  'อ.หยก'     // 10→ images/10_1.jpg, 10_2.jpg
+];
+
+// ============================================================
 // STATE
 // ============================================================
 let db, gameRef, roomId;
-let profNames = JSON.parse(localStorage.getItem('pq_names') || 'null') || 
-  ['อ.เก้','ปริญ','พี่ต้อ','อ.อ๊อด','อ.เบญ','อ.ตี๋','อ.ตั้ว','พี่เอก','อ.โอ๋','หยก'];
-
 let currentQ = 0;
 let questionOrder = [];
 let players = {};
 let answers = {};
 let timerInterval = null;
 let currentCorrect = '';
-let gamePhase = 'waiting'; // waiting | playing | revealed
+let gamePhase = 'waiting';
+let answersListener = null;
 
 // ============================================================
-// SETUP
+// AUTO-INIT ON LOAD
 // ============================================================
-function buildNamesGrid() {
-  const g = document.getElementById('namesGrid');
-  g.innerHTML = profNames.map((n,i) => `
-    <div class="name-row">
-      <span class="name-num">${i+1}.</span>
-      <input type="text" value="${esc(n)}" id="pn_${i}" placeholder="ชื่ออาจารย์ ${i+1}" maxlength="40">
-    </div>`).join('');
-}
-
-window.initFirebase = async function() {
-  // Read names
-  for(let i=0;i<profNames.length;i++){
-    const v = document.getElementById('pn_'+i)?.value.trim();
-    if(v) profNames[i] = v;
-  }
-  localStorage.setItem('pq_names', JSON.stringify(profNames));
-
-  // Read config
-  const raw = document.getElementById('fbConfigInput').value.trim();
-  if (!raw) { toast('⚠️ กรุณาวาง Firebase Config ก่อน'); return; }
-  let cfg;
-  try { cfg = JSON.parse(raw); } catch(e) { toast('❌ JSON ไม่ถูกต้อง กรุณาตรวจสอบ'); return; }
-  if (!cfg.databaseURL) { toast('❌ ไม่พบ databaseURL ใน config'); return; }
-
+window.addEventListener('load', async () => {
+  showScreen('startingScreen');
   try {
-    const app = initializeApp(cfg);
+    const app = initializeApp(FIREBASE_CONFIG);
     db = getDatabase(app);
-    
-    // create room
     roomId = 'room_' + Date.now().toString(36);
     gameRef = ref(db, 'games/' + roomId);
-    
-    // shuffle question order
-    questionOrder = [...Array(profNames.length).keys()].sort(() => Math.random() - 0.5);
-    
+    questionOrder = [...Array(PROF_NAMES.length).keys()].sort(() => Math.random() - 0.5);
+
     await set(gameRef, {
       phase: 'lobby',
       currentQ: -1,
       questionOrder,
-      profNames,
+      profNames: PROF_NAMES,
       createdAt: Date.now()
     });
 
-    // Build player URL
-    const playerUrl = buildPlayerUrl(cfg, roomId);
+    const playerUrl = buildPlayerUrl();
     document.getElementById('joinUrl').textContent = playerUrl;
     generateQR(playerUrl);
 
-    // Listen players
-    onValue(ref(db, 'games/'+roomId+'/players'), snap => {
+    onValue(ref(db, 'games/' + roomId + '/players'), snap => {
       players = snap.val() || {};
       updatePlayersUI();
     });
@@ -480,26 +259,32 @@ window.initFirebase = async function() {
     showScreen('lobbyScreen');
     toast('✅ ห้องเกมพร้อมแล้ว!');
   } catch(e) {
-    toast('❌ เชื่อม Firebase ไม่ได้: ' + e.message);
-    console.error(e);
+    document.getElementById('startingScreen').innerHTML = `
+      <div style="text-align:center;padding:60px 20px;color:var(--red)">
+        <div style="font-size:3rem;margin-bottom:16px">❌</div>
+        <h2 style="margin-bottom:8px">เชื่อมต่อ Firebase ไม่ได้</h2>
+        <p style="color:var(--muted);font-family:'Sarabun',sans-serif;margin-bottom:20px">${e.message}</p>
+        <button class="btn btn-outline" onclick="location.reload()">🔄 ลองใหม่</button>
+      </div>`;
   }
-};
+});
 
-function buildPlayerUrl(cfg, roomId) {
-  const base = location.href.replace('prof-quiz-host.html','prof-quiz-player.html');
-  return base + '?db=' + encodeURIComponent(cfg.databaseURL) + '&room=' + roomId
-    + '&apiKey=' + encodeURIComponent(cfg.apiKey)
-    + '&projectId=' + encodeURIComponent(cfg.projectId || '');
+function buildPlayerUrl() {
+  const base = location.href.replace('index.html','').replace(/\/$/, '');
+  return base + '/prof-quiz-player.html'
+    + '?db=' + encodeURIComponent(FIREBASE_CONFIG.databaseURL)
+    + '&room=' + roomId
+    + '&apiKey=' + encodeURIComponent(FIREBASE_CONFIG.apiKey)
+    + '&projectId=' + encodeURIComponent(FIREBASE_CONFIG.projectId);
 }
 
 function generateQR(url) {
-  const qrBox = document.getElementById('qrBox');
+  const box = document.getElementById('qrBox');
   const img = document.createElement('img');
-  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(url)}`;
-  img.alt = 'QR Code';
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(url)}`;
   img.style.width = '100%';
-  qrBox.innerHTML = '';
-  qrBox.appendChild(img);
+  box.innerHTML = '';
+  box.appendChild(img);
 }
 
 window.copyJoinUrl = function() {
@@ -524,233 +309,174 @@ window.startGame = async function() {
 // ============================================================
 async function loadQuestion() {
   clearInterval(timerInterval);
+  if (answersListener) { answersListener(); answersListener = null; }
   gamePhase = 'playing';
   answers = {};
 
   const personIdx = questionOrder[currentQ];
-  currentCorrect = profNames[personIdx];
+  currentCorrect = PROF_NAMES[personIdx];
   const personNum = personIdx + 1;
 
-  // Update DB
+  const wrongPool = PROF_NAMES.filter((_,i) => i !== personIdx);
+  wrongPool.sort(() => Math.random() - 0.5);
+  const choices = [...wrongPool.slice(0, 3), currentCorrect].sort(() => Math.random() - 0.5);
+
   await update(gameRef, {
-    phase: 'question',
-    currentQ,
-    personIdx,
-    currentCorrect,
-    revealAnswer: false,
-    answers: null,
-    timerStart: Date.now(),
-    timerDuration: 30
+    phase: 'question', currentQ, personIdx,
+    currentCorrect, choices,
+    revealAnswer: false, answers: null,
+    timerStart: Date.now(), timerDuration: 30
   });
 
   // UI
   document.getElementById('qNum').textContent = currentQ + 1;
-  document.getElementById('qTotal').textContent = profNames.length;
+  document.getElementById('qTotal').textContent = PROF_NAMES.length;
   document.getElementById('clueNum').textContent = currentQ + 1;
-  document.getElementById('progFill').style.width = ((currentQ+1)/profNames.length*100) + '%';
+  document.getElementById('progFill').style.width = ((currentQ + 1) / PROF_NAMES.length * 100) + '%';
 
   // Images
   const imgC = document.getElementById('clueImgs');
   imgC.innerHTML = '';
-  for(let n=1;n<=2;n++){
+  for (let n = 1; n <= 2; n++) {
     const box = document.createElement('div');
     box.className = 'clue-img-box';
     const img = document.createElement('img');
-    img.alt = 'คำใบ้ '+n;
+    img.alt = 'คำใบ้ ' + n;
     img.src = `images/${personNum}_${n}.jpg`;
-    img.onerror = function(){ this.src=`images/${personNum}_${n}.png`; this.onerror=()=>this.parentElement.style.display='none'; };
+    img.onerror = function() {
+      this.src = `images/${personNum}_${n}.png`;
+      this.onerror = () => this.parentElement.style.display = 'none';
+    };
     img.onclick = () => openLB(img.src);
     const badge = document.createElement('div');
     badge.className = 'img-num';
-    badge.textContent = 'รูป '+n;
+    badge.textContent = 'รูป ' + n;
     box.appendChild(img); box.appendChild(badge);
     imgC.appendChild(box);
   }
 
-  // Reset UI elements
+  // Reset UI
   document.getElementById('answerReveal').classList.remove('show');
   document.getElementById('statsPanel').classList.remove('show');
   document.getElementById('revealBtn').style.display = 'inline-block';
   document.getElementById('nextBtn').style.display = 'none';
   document.getElementById('finishBtn').style.display = 'none';
   setPhaseChip('playing');
+  document.getElementById('answeredCount').textContent = '0';
 
-  // Build choices for stats display
-  const wrongPool = profNames.filter((_,i)=>i!==personIdx);
-  wrongPool.sort(()=>Math.random()-.5);
-  const choices = [...wrongPool.slice(0,3), currentCorrect].sort(()=>Math.random()-.5);
-  // store choices in DB so player page can read them
-  await update(gameRef, { choices });
-
-  // Timer
   startTimer(30);
 
-  // Listen answers
-  onValue(ref(db,'games/'+roomId+'/answers'), snap => {
+  answersListener = onValue(ref(db, 'games/' + roomId + '/answers'), snap => {
     answers = snap.val() || {};
-    updateAnswerCount();
+    const count = Object.keys(answers).length;
+    const total = Object.keys(players).length;
+    document.getElementById('answeredCount').textContent = count;
+    document.getElementById('totalPlayers').textContent = total;
+    if (count >= total && total > 0) {
+      clearInterval(timerInterval);
+      revealAnswer();
+    }
   });
 }
 
 function startTimer(sec) {
-  let remaining = sec;
-  document.getElementById('timerNum').textContent = remaining;
-  document.getElementById('timerNum').classList.remove('urgent');
+  let rem = sec;
+  const el = document.getElementById('timerNum');
+  el.textContent = rem;
+  el.classList.remove('urgent');
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
-    remaining--;
-    document.getElementById('timerNum').textContent = remaining;
-    if (remaining <= 5) document.getElementById('timerNum').classList.add('urgent');
-    if (remaining <= 0) {
-      clearInterval(timerInterval);
-      revealAnswer();
-    }
+    rem--;
+    el.textContent = rem;
+    if (rem <= 5) el.classList.add('urgent');
+    if (rem <= 0) { clearInterval(timerInterval); revealAnswer(); }
   }, 1000);
 }
 
-function updateAnswerCount() {
-  const count = Object.keys(answers).length;
-  const total = Object.keys(players).length;
-  document.getElementById('answeredCount').textContent = count;
-  document.getElementById('totalPlayers').textContent = total;
-  if (count >= total && total > 0) {
-    clearInterval(timerInterval);
-    revealAnswer();
-  }
-}
-
-// ============================================================
-// REVEAL
-// ============================================================
 window.revealAnswer = async function() {
   if (gamePhase === 'revealed') return;
   gamePhase = 'revealed';
   clearInterval(timerInterval);
 
-  // Tally scores
   const correctPlayers = [];
   for (const [pid, ans] of Object.entries(answers)) {
     if (ans.answer === currentCorrect) {
       correctPlayers.push(pid);
-      // increment score
-      const curScore = players[pid]?.score || 0;
-      await update(ref(db,'games/'+roomId+'/players/'+pid), { score: curScore + 1 });
+      const cur = players[pid]?.score || 0;
+      await update(ref(db, 'games/' + roomId + '/players/' + pid), { score: cur + 1 });
     }
   }
-
   await update(gameRef, { revealAnswer: true, phase: 'reveal' });
 
-  // Show reveal banner
-  const rev = document.getElementById('answerReveal');
   document.getElementById('correctNameDisplay').textContent = currentCorrect;
   document.getElementById('correctCountText').textContent = `${correctPlayers.length} คนตอบถูก`;
-  rev.classList.add('show');
-
-  // Stats bars
+  document.getElementById('answerReveal').classList.add('show');
   showStats();
   setPhaseChip('revealed');
   document.getElementById('revealBtn').style.display = 'none';
   document.getElementById('timerNum').textContent = '✓';
   document.getElementById('timerNum').classList.remove('urgent');
-
-  if (currentQ + 1 < profNames.length) {
-    document.getElementById('nextBtn').style.display = 'inline-block';
-  } else {
-    document.getElementById('finishBtn').style.display = 'inline-block';
-  }
-
-  // Refresh leaderboard
+  if (currentQ + 1 < PROF_NAMES.length) document.getElementById('nextBtn').style.display = 'inline-block';
+  else document.getElementById('finishBtn').style.display = 'inline-block';
   setTimeout(renderLeaderboard, 800);
 };
 
-function showStats() {
-  const panel = document.getElementById('statsPanel');
-  const list = document.getElementById('statsList');
-  const total = Object.keys(answers).length || 1;
-  
-  // count per choice
+async function showStats() {
+  const total = Math.max(Object.keys(answers).length, 1);
   const tally = {};
-  for(const a of Object.values(answers)) {
-    tally[a.answer] = (tally[a.answer]||0) + 1;
-  }
-
-  // get choices from current game state
-  get(ref(db,'games/'+roomId+'/choices')).then(snap => {
-    const choices = snap.val() || profNames.slice(0,4);
-    list.innerHTML = choices.map(c => {
-      const cnt = tally[c] || 0;
-      const pct = Math.round(cnt/total*100);
-      const isCorrect = c === currentCorrect;
-      return `<div class="stat-row">
-        <div class="stat-name" title="${esc(c)}">${esc(c)}</div>
-        <div class="stat-bar-bg" style="flex:1">
-          <div class="stat-bar-fill ${isCorrect?'is-correct':''}" style="width:${pct}%"></div>
-        </div>
-        <div class="stat-count">${cnt}</div>
-      </div>`;
-    }).join('');
-    panel.classList.add('show');
-  });
+  for (const a of Object.values(answers)) tally[a.answer] = (tally[a.answer] || 0) + 1;
+  const snap = await get(ref(db, 'games/' + roomId + '/choices'));
+  const choices = snap.val() || PROF_NAMES.slice(0, 4);
+  document.getElementById('statsList').innerHTML = choices.map(c => {
+    const cnt = tally[c] || 0;
+    const pct = Math.round(cnt / total * 100);
+    return `<div class="stat-row">
+      <div class="stat-name" title="${esc(c)}">${esc(c)}</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill ${c === currentCorrect ? 'is-correct' : ''}" style="width:${pct}%"></div></div>
+      <div class="stat-count">${cnt}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('statsPanel').classList.add('show');
 }
 
-// ============================================================
-// NEXT / FINAL
-// ============================================================
-window.nextQuestion = async function() {
-  currentQ++;
-  loadQuestion();
-};
+window.nextQuestion = function() { currentQ++; loadQuestion(); };
 
 window.showFinal = async function() {
   await update(gameRef, { phase: 'final' });
   showScreen('finalScreen');
-  renderFinalLeaderboard();
-};
-
-window.resetGame = function() {
-  showScreen('lobbyScreen');
-};
-
-// ============================================================
-// LEADERBOARD
-// ============================================================
-function renderLeaderboard() {
-  const sorted = Object.entries(players).sort((a,b)=>(b[1].score||0)-(a[1].score||0));
-  const ranks = ['🥇','🥈','🥉'];
-  document.getElementById('lbList').innerHTML = sorted.length ? sorted.map(([,p],i) => `
-    <div class="lb-row ${i<3?'r'+(i+1):''}">
-      <div class="lb-rank">${ranks[i]||i+1}</div>
+  document.getElementById('finalScreen').classList.add('show');
+  const sorted = Object.entries(players).sort((a, b) => (b[1].score || 0) - (a[1].score || 0));
+  const ranks = ['🥇', '🥈', '🥉'];
+  document.getElementById('finalLbList').innerHTML = sorted.map(([, p], i) => `
+    <div class="lb-row ${i < 3 ? 'r' + (i + 1) : ''}">
+      <div class="lb-rank" style="font-size:${i < 3 ? '1.8' : '1.2'}rem">${ranks[i] || i + 1}</div>
       <div class="lb-name">${esc(p.name)}</div>
-      <div class="lb-pts">${p.score||0} แต้ม</div>
-    </div>`).join('') : '<div style="text-align:center;padding:28px;color:var(--muted)">ยังไม่มีคะแนน</div>';
-  document.getElementById('lb-updated').textContent = 'อัปเดต '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
-}
-
-function renderFinalLeaderboard() {
-  const sorted = Object.entries(players).sort((a,b)=>(b[1].score||0)-(a[1].score||0));
-  const ranks = ['🥇','🥈','🥉'];
-  document.getElementById('finalLbList').innerHTML = sorted.map(([,p],i) => `
-    <div class="lb-row ${i<3?'r'+(i+1):''}">
-      <div class="lb-rank" style="font-size:${i<3?'1.8':'1.2'}rem">${ranks[i]||i+1}</div>
-      <div class="lb-name" style="font-size:${i===0?'1.2':'1'}rem">${esc(p.name)}</div>
-      <div class="lb-pts" style="font-size:${i===0?'1.2':'1'}rem">${p.score||0} / ${profNames.length}</div>
+      <div class="lb-pts">${p.score || 0} / ${PROF_NAMES.length}</div>
     </div>`).join('');
+};
+
+function renderLeaderboard() {
+  const sorted = Object.entries(players).sort((a, b) => (b[1].score || 0) - (a[1].score || 0));
+  const ranks = ['🥇', '🥈', '🥉'];
+  document.getElementById('lbList').innerHTML = sorted.length
+    ? sorted.map(([, p], i) => `
+      <div class="lb-row ${i < 3 ? 'r' + (i + 1) : ''}">
+        <div class="lb-rank">${ranks[i] || i + 1}</div>
+        <div class="lb-name">${esc(p.name)}</div>
+        <div class="lb-pts">${p.score || 0} แต้ม</div>
+      </div>`).join('')
+    : '<div style="text-align:center;padding:28px;color:var(--muted)">ยังไม่มีคะแนน</div>';
+  document.getElementById('lb-updated').textContent = 'อัปเดต ' + new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
 }
 
-// ============================================================
-// UI HELPERS
-// ============================================================
 function updatePlayersUI() {
-  const list = document.getElementById('playersList');
   const count = Object.keys(players).length;
   document.getElementById('playerCountBadge').textContent = count;
   document.getElementById('totalPlayers').textContent = count;
-  if (count === 0) {
-    list.innerHTML = '<span style="color:var(--muted);font-size:.85rem;font-family:\'Sarabun\',sans-serif">รอเด็กเข้าห้อง...</span>';
-    return;
-  }
-  list.innerHTML = Object.values(players).map(p =>
-    `<div class="player-chip">👤 ${esc(p.name)}</div>`).join('');
+  const list = document.getElementById('playersList');
+  list.innerHTML = count === 0
+    ? '<span style="color:var(--muted);font-size:.85rem;font-family:\'Sarabun\',sans-serif">รอเด็กเข้าห้อง...</span>'
+    : Object.values(players).map(p => `<div class="player-chip">👤 ${esc(p.name)}</div>`).join('');
 }
 
 function setPhaseChip(phase) {
@@ -762,39 +488,25 @@ function setPhaseChip(phase) {
 }
 
 function showScreen(id) {
-  ['setupScreen','lobbyScreen','gameScreen','finalScreen'].forEach(s => {
+  ['lobbyScreen', 'gameScreen', 'finalScreen', 'startingScreen'].forEach(s => {
     const el = document.getElementById(s);
-    el.style.display = 'none';
-    el.classList.remove('show');
+    if (el) { el.style.display = 'none'; el.classList.remove('show'); }
   });
-  const target = document.getElementById(id);
-  target.style.display = 'block';
-  target.classList.add('show');
-  if (id === 'gameScreen') target.classList.add('game-screen');
+  const t = document.getElementById(id);
+  if (t) { t.style.display = 'block'; if (id === 'gameScreen') t.classList.add('game-screen'); }
 }
 
-function toast(msg, dur=3000) {
+function toast(msg, dur = 3000) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), dur);
 }
 
-window.openLB = function(src) {
-  document.getElementById('lbImg').src = src;
-  document.getElementById('lightbox').classList.add('open');
-};
-window.closeLB = function() { document.getElementById('lightbox').classList.remove('open'); };
-document.getElementById('lightbox').addEventListener('click', e => { if(e.target===e.currentTarget) window.closeLB(); });
-
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// Init
-buildNamesGrid();
-// Show setup screen properly
-document.getElementById('setupScreen').style.display = 'block';
+window.openLB = src => { document.getElementById('lbImg').src = src; document.getElementById('lightbox').classList.add('open'); };
+window.closeLB = () => document.getElementById('lightbox').classList.remove('open');
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLB(); });
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 </script>
 </body>
 </html>
