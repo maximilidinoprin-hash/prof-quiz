@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🎮 ทายซิ อาจารย์คือใคร?</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a1c;
+  --s1:#131328;
+  --s2:#1c1c3a;
+  --gold:#f5c842;
+  --gold2:#ffaa00;
+  --green:#3effa0;
+  --red:#ff5c5c;
+  --blue:#5cb8ff;
+  --purple:#b96fff;
+  --text:#f0f0ff;
+  --muted:#6060a0;
+  --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--text);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;
+  background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,.06) 0,transparent 60%)}
+
+.screen{width:100%;max-width:480px;display:none;animation:up .4s ease}
+.screen.active{display:flex;flex-direction:column;gap:14px}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* JOIN */
+.join-logo{text-align:center;padding-bottom:4px}
+.join-logo .icon{font-size:3.5rem;line-height:1;margin-bottom:8px}
+.join-logo h1{font-size:1.7rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.join-logo p{color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif;margin-top:4px}
+
+.card{background:var(--s1);border:1.5px solid rgba(245,200,66,.18);border-radius:var(--r);padding:22px}
+.card label{display:block;color:var(--muted);font-size:.82rem;margin-bottom:7px;font-family:'Sarabun',sans-serif}
+
+input[type=text]{width:100%;background:var(--s2);border:1.5px solid rgba(245,200,66,.2);border-radius:11px;
+  color:var(--text);font-family:'Mitr',sans-serif;font-size:1rem;padding:13px 16px;outline:none;transition:border-color .3s}
+input[type=text]:focus{border-color:var(--gold)}
+
+.btn{width:100%;padding:15px;border-radius:12px;border:none;font-family:'Mitr',sans-serif;font-size:1.05rem;
+  font-weight:600;cursor:pointer;transition:all .25s;text-align:center}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0a00}
+.btn-gold:active{transform:scale(.97)}
+.btn-outline{background:var(--s2);color:var(--text);border:1.5px solid rgba(245,200,66,.25)}
+.btn-outline:active{transform:scale(.97)}
+
+/* WAITING */
+.waiting-box{text-align:center;padding:20px 0}
+.waiting-box .spin{width:44px;height:44px;border:3px solid rgba(245,200,66,.2);
+  border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.waiting-box h2{font-size:1.3rem;color:var(--gold)}
+.waiting-box p{color:var(--muted);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-top:6px}
+.player-name-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,200,66,.1);
+  border:1px solid rgba(245,200,66,.3);color:var(--gold);border-radius:50px;padding:6px 18px;font-size:.9rem;margin-top:10px}
+
+/* QUESTION */
+#clueImgs{display:flex;flex-direction:column;gap:10px}
+.clue-img-wrap{border-radius:14px;overflow:hidden;border:1.5px solid rgba(245,200,66,.18);
+  background:#080818;cursor:pointer;position:relative}
+.clue-img-wrap img{display:block;width:100%;max-height:220px;object-fit:contain}
+.clue-label{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.75);
+  color:var(--gold);border-radius:7px;padding:2px 9px;font-size:.72rem;border:1px solid var(--gold)}
+
+.q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.q-num{color:var(--muted);font-size:.82rem;font-family:'Sarabun',sans-serif}
+.timer-pill{background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);
+  color:var(--gold);border-radius:50px;padding:3px 14px;font-size:.9rem;font-weight:600}
+.timer-pill.urgent{background:rgba(255,92,92,.15);border-color:rgba(255,92,92,.5);color:var(--red);animation:pulse .5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.choices-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{padding:16px 12px;border-radius:13px;border:2px solid rgba(245,200,66,.2);
+  background:var(--s2);color:var(--text);font-family:'Mitr',sans-serif;font-size:.92rem;
+  cursor:pointer;transition:all .2s;text-align:center;line-height:1.4;user-select:none}
+.choice:active:not(:disabled){transform:scale(.96)}
+.choice.selected{border-color:var(--gold);background:rgba(245,200,66,.18);color:var(--gold)}
+.choice.correct{border-color:var(--green);background:rgba(62,255,160,.18);color:var(--green)}
+.choice.wrong{border-color:var(--red);background:rgba(255,92,92,.12);color:var(--red)}
+.choice:disabled{cursor:default}
+
+.submit-wrap{margin-top:2px}
+#submitBtn:disabled{opacity:.45;pointer-events:none}
+
+/* RESULT MINI */
+.result-mini{border-radius:14px;padding:16px 20px;text-align:center;display:none}
+.result-mini.show{display:block;animation:up .35s ease}
+.result-mini.ok{background:rgba(62,255,160,.1);border:1.5px solid rgba(62,255,160,.35)}
+.result-mini.ng{background:rgba(255,92,92,.1);border:1.5px solid rgba(255,92,92,.25)}
+.result-mini .big{font-size:2rem;margin-bottom:4px}
+.result-mini .msg{font-size:.9rem;font-family:'Sarabun',sans-serif}
+.result-mini.ok .msg{color:var(--green)}
+.result-mini.ng .msg{color:var(--red)}
+.next-hint{text-align:center;color:var(--muted);font-size:.82rem;font-family:'Sarabun',sans-serif}
+
+/* FINAL */
+.final-box{text-align:center;padding:16px 0}
+.final-box .big-score{font-size:4.5rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.final-box h2{font-size:1.4rem;font-weight:700;margin-top:8px}
+.final-box p{color:var(--muted);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-top:6px;line-height:1.7}
+
+/* LIGHTBOX */
+.lbox{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:999;display:none;
+  align-items:center;justify-content:center;padding:16px}
+.lbox.open{display:flex}
+.lbox img{max-width:100%;max-height:92vh;border-radius:10px;object-fit:contain}
+.lbox-x{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);
+  border:none;color:#fff;font-size:1.5rem;border-radius:50%;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* PROG BAR */
+.prog-bar{height:4px;background:var(--s2);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s}
+</style>
+</head>
+<body>
+
+<div class="lbox" id="lbox">
+  <button class="lbox-x" onclick="closeLbox()">✕</button>
+  <img id="lboxImg" src="" alt="">
+</div>
+
+<!-- JOIN SCREEN -->
+<div class="screen active" id="joinScreen">
+  <div class="join-logo">
+    <div class="icon">🔍</div>
+    <h1>ทายซิ อาจารย์คือใคร?</h1>
+    <p>กรอกชื่อแล้วรอเกมเริ่ม</p>
+  </div>
+  <div class="card">
+    <label>ชื่อของคุณ</label>
+    <input type="text" id="nameInput" placeholder="ชื่อเล่น หรือ ชื่อ-นามสกุล" maxlength="30" autocomplete="off">
+  </div>
+  <button class="btn btn-gold" onclick="joinGame()">✅ เข้าร่วมเกม</button>
+  <div id="joinError" style="text-align:center;color:var(--red);font-size:.85rem;display:none;font-family:'Sarabun',sans-serif"></div>
+</div>
+
+<!-- WAITING SCREEN -->
+<div class="screen" id="waitScreen">
+  <div class="card waiting-box">
+    <div class="spin"></div>
+    <h2>เข้าร่วมแล้ว!</h2>
+    <div class="player-name-tag" id="waitNameTag">👤 —</div>
+    <p style="margin-top:12px">รออาจารย์เริ่มเกม...</p>
+  </div>
+</div>
+
+<!-- QUESTION SCREEN -->
+<div class="screen" id="questionScreen">
+  <div>
+    <div class="q-header">
+      <span class="q-num" id="qNum">ข้อที่ 1/10</span>
+      <span class="timer-pill" id="timerPill">30</span>
+    </div>
+    <div class="prog-bar" style="margin-top:6px"><div class="prog-fill" id="progFill" style="width:10%"></div></div>
+  </div>
+
+  <div id="clueImgs"></div>
+
+  <div class="choices-grid" id="choicesGrid"></div>
+
+  <div class="submit-wrap">
+    <button class="btn btn-gold" id="submitBtn" disabled onclick="submitAnswer()">✅ ยืนยัน</button>
+  </div>
+
+  <div class="result-mini" id="resultMini">
+    <div class="big" id="resultEmoji">🎉</div>
+    <div class="msg" id="resultMsg"></div>
+  </div>
+
+  <div class="next-hint" id="nextHint" style="display:none">⏳ รออาจารย์ขึ้นข้อถัดไป...</div>
+</div>
+
+<!-- FINAL SCREEN -->
+<div class="screen" id="finalScreen">
+  <div class="card final-box">
+    <div style="font-size:3rem">🏆</div>
+    <div class="big-score" id="finalScore">0</div>
+    <h2>คะแนนของคุณ</h2>
+    <p id="finalMsg">ขอบคุณที่ร่วมเล่น!</p>
+  </div>
+  <div class="card">
+    <div style="text-align:center;color:var(--muted);font-size:.88rem;font-family:'Sarabun',sans-serif">
+      ⏳ รออาจารย์แสดงผลรวม...
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, update, onValue, get, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ============================================================
+// CONFIG — hardcoded
+// ============================================================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyArdcFC7c6AM-lrjvJsAuhRHCx8Mr11SGA",
+  authDomain: "picture-game-lsm.firebaseapp.com",
+  databaseURL: "https://picture-game-lsm-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "picture-game-lsm",
+  storageBucket: "picture-game-lsm.firebasestorage.app",
+  messagingSenderId: "227003766308",
+  appId: "1:227003766308:web:2ad6ef4d53b2fd6172aab1"
+};
+const params = new URLSearchParams(location.search);
+const roomId = params.get('room');
+
+if (!roomId) {
+  document.getElementById('joinError').textContent = '❌ ลิงก์ไม่ถูกต้อง กรุณาขอลิงก์จากอาจารย์ใหม่';
+  document.getElementById('joinError').style.display = 'block';
+  document.getElementById('nameInput').disabled = true;
+}
+
+let db, gameRef, playerRef;
+let playerId = null;
+let playerName = '';
+let myScore = 0;
+let currentQNum = -1;
+let myAnswer = null;
+let answered = false;
+let timerInterval = null;
+let currentChoices = [];
+let currentCorrect = '';
+let gamePhase = 'lobby';
+
+// ============================================================
+// FIREBASE INIT
+// ============================================================
+function initFB() {
+  const app = initializeApp(FIREBASE_CONFIG, 'player_' + Date.now());
+  db = getDatabase(app);
+  gameRef = ref(db, 'games/' + roomId);
+}
+
+// ============================================================
+// JOIN
+// ============================================================
+window.joinGame = async function() {
+  const n = document.getElementById('nameInput').value.trim();
+  if (!n) { showErr('กรุณากรอกชื่อ'); return; }
+  
+  try {
+    initFB();
+    playerName = n;
+    const pRef = ref(db, 'games/' + roomId + '/players');
+    const newRef = await push(pRef, { name: n, score: 0, joinedAt: Date.now() });
+    playerId = newRef.key;
+    playerRef = ref(db, 'games/' + roomId + '/players/' + playerId);
+    
+    document.getElementById('waitNameTag').textContent = '👤 ' + n;
+    showScreen('waitScreen');
+    
+    // Listen game state
+    onValue(gameRef, snap => {
+      const data = snap.val();
+      if (!data) return;
+      handleGameState(data);
+    });
+  } catch(e) {
+    showErr('❌ เชื่อมต่อไม่ได้: ' + e.message);
+  }
+};
+
+// ============================================================
+// GAME STATE HANDLER
+// ============================================================
+function handleGameState(data) {
+  const phase = data.phase;
+  const qIdx = data.currentQ;
+
+  if (phase === 'lobby') {
+    showScreen('waitScreen');
+    return;
+  }
+
+  if ((phase === 'question' || phase === 'reveal') && qIdx !== undefined) {
+    if (phase === 'question' && qIdx !== currentQNum) {
+      // New question
+      currentQNum = qIdx;
+      answered = false;
+      myAnswer = null;
+      currentCorrect = data.currentCorrect || '';
+      currentChoices = data.choices || [];
+      loadQuestionUI(data);
+      showScreen('questionScreen');
+    } else if (phase === 'reveal' && data.revealAnswer) {
+      // Mid-game reveal disabled — skip
+    }
+  }
+
+  if (phase === 'final') {
+    showFinal(data);
+  }
+}
+
+// ============================================================
+// QUESTION UI
+// ============================================================
+function loadQuestionUI(data) {
+  clearInterval(timerInterval);
+  const personIdx = data.personIdx;
+  const personNum = personIdx + 1;
+  const profNames = data.profNames || [];
+  const totalQ = profNames.length;
+
+  // header
+  document.getElementById('qNum').textContent = `ข้อที่ ${currentQNum+1}/${totalQ}`;
+  document.getElementById('progFill').style.width = ((currentQNum+1)/totalQ*100) + '%';
+
+  // images
+  const imgC = document.getElementById('clueImgs');
+  imgC.innerHTML = '';
+  for(let n=1;n<=2;n++){
+    const wrap = document.createElement('div');
+    wrap.className = 'clue-img-wrap';
+    const img = document.createElement('img');
+    img.alt = 'คำใบ้ '+n;
+    img.src = `images/${personNum}_${n}.jpg`;
+    img.onerror = function(){ this.src=`images/${personNum}_${n}.png`; this.onerror=()=>this.parentElement.style.display='none'; };
+    img.onclick = () => openLbox(img.src);
+    const lbl = document.createElement('div');
+    lbl.className = 'clue-label';
+    lbl.textContent = 'รูป '+n;
+    wrap.appendChild(img); wrap.appendChild(lbl);
+    imgC.appendChild(wrap);
+  }
+
+  // choices
+  const grid = document.getElementById('choicesGrid');
+  grid.innerHTML = '';
+  currentChoices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = c;
+    btn.onclick = () => selectChoice(btn, c);
+    grid.appendChild(btn);
+  });
+
+  // reset
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('resultMini').classList.remove('show','ok','ng');
+  document.getElementById('nextHint').style.display = 'none';
+
+  // timer
+  const elapsed = (Date.now() - (data.timerStart || Date.now())) / 1000;
+  const remaining = Math.max(0, (data.timerDuration || 30) - Math.floor(elapsed));
+  startTimer(remaining);
+}
+
+function selectChoice(btn, name) {
+  if (answered) return;
+  myAnswer = name;
+  document.querySelectorAll('.choice').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('submitBtn').disabled = false;
+}
+
+window.submitAnswer = async function() {
+  if (!myAnswer || answered) return;
+  answered = true;
+  document.getElementById('submitBtn').disabled = true;
+  clearInterval(timerInterval);
+
+  // Store in both answers (for live count) and allAnswers (for final tally)
+  await set(ref(db, 'games/' + roomId + '/answers/' + playerId), {
+    answer: myAnswer,
+    name: playerName,
+    time: Date.now()
+  });
+  await set(ref(db, 'games/' + roomId + '/allAnswers/' + currentQNum + '/' + playerId), {
+    answer: myAnswer,
+    name: playerName
+  });
+
+  document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+  document.getElementById('timerPill').textContent = '✓';
+  document.getElementById('timerPill').classList.remove('urgent');
+  document.getElementById('nextHint').textContent = '✅ บันทึกคำตอบแล้ว! รอข้อถัดไป...';
+  document.getElementById('nextHint').style.display = 'block';
+  document.getElementById('submitBtn').style.display = 'none';
+};
+
+function startTimer(sec) {
+  let rem = Math.floor(sec);
+  const pill = document.getElementById('timerPill');
+  pill.textContent = rem;
+  pill.classList.remove('urgent');
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    rem--;
+    pill.textContent = rem;
+    if (rem <= 5) pill.classList.add('urgent');
+    if (rem <= 0) {
+      clearInterval(timerInterval);
+      document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('nextHint').textContent = answered ? '✅ บันทึกแล้ว! รอข้อถัดไป...' : '⏰ หมดเวลา! รอข้อถัดไป...';
+      document.getElementById('nextHint').style.display = 'block';
+    }
+  }, 1000);
+}
+
+// ============================================================
+// REVEAL
+// ============================================================
+function revealUI(data) {
+  clearInterval(timerInterval);
+  const correct = data.currentCorrect || currentCorrect;
+  const isCorrect = myAnswer === correct;
+  
+  document.querySelectorAll('.choice').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+    else if (b.textContent === myAnswer && !isCorrect) b.classList.add('wrong');
+    b.classList.remove('selected');
+  });
+
+  const mini = document.getElementById('resultMini');
+  if (myAnswer) {
+    if (isCorrect) {
+      myScore++;
+      mini.className = 'result-mini show ok';
+      document.getElementById('resultEmoji').textContent = '🎉';
+      document.getElementById('resultMsg').textContent = `ถูกต้อง! "${correct}"`;
+    } else {
+      mini.className = 'result-mini show ng';
+      document.getElementById('resultEmoji').textContent = '😅';
+      document.getElementById('resultMsg').textContent = `คำตอบคือ "${correct}"`;
+    }
+  } else {
+    mini.className = 'result-mini show ng';
+    document.getElementById('resultEmoji').textContent = '⏰';
+    document.getElementById('resultMsg').textContent = `หมดเวลา! คำตอบคือ "${correct}"`;
+  }
+
+  document.getElementById('nextHint').style.display = 'block';
+  document.getElementById('nextHint').textContent = '⏳ รออาจารย์ขึ้นข้อถัดไป...';
+  document.getElementById('submitBtn').style.display = 'none';
+}
+
+// ============================================================
+// FINAL
+// ============================================================
+function showFinal(data) {
+  clearInterval(timerInterval);
+  const profNames = data.profNames || [];
+  const total = profNames.length;
+  
+  // Get score from DB (server-side tallied)
+  get(ref(db, 'games/' + roomId + '/players/' + playerId)).then(snap => {
+    const p = snap.val() || {};
+    const score = p.score || 0;
+    const pct = score / total;
+    document.getElementById('finalScore').textContent = score + '/' + total;
+    let msg = '';
+    if (pct === 1) msg = '🌟 เพอร์เฟกต์! รู้จักอาจารย์ทุกคนเลย!';
+    else if (pct >= .8) msg = '🔥 เยี่ยมมาก จำหน้าอาจารย์ได้เกือบหมด!';
+    else if (pct >= .6) msg = '👍 ดีนะ รู้จักอาจารย์ส่วนใหญ่';
+    else if (pct >= .4) msg = '😊 พอผ่านได้ลองจำหน้าอาจารย์ให้มากขึ้นนะ';
+    else msg = '😅 ยังไม่ค่อยรู้จักอาจารย์ ไม่เป็นไร!';
+    document.getElementById('finalMsg').textContent = msg;
+  });
+  showScreen('finalScreen');
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showErr(msg) {
+  const el = document.getElementById('joinError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 4000);
+}
+
+window.openLbox = function(src) {
+  document.getElementById('lboxImg').src = src;
+  document.getElementById('lbox').classList.add('open');
+};
+window.closeLbox = function() { document.getElementById('lbox').classList.remove('open'); };
+document.getElementById('lbox').addEventListener('click', e => { if(e.target===e.currentTarget) closeLbox(); });
+
+// Enter key
+document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') window.joinGame(); });
+</script>
+</body>
+</html>
